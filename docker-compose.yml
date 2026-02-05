@@ -1,0 +1,18 @@
+services:
+  angular:
+    build: .
+    volumes:
+      # Mount the current directory to /workspace so generated files persist on host
+      - .:/workspace
+      # Anonymous volume for node_modules to avoid host/container conflicts and improve performance
+      #- /workspace/angular-app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      # Polling for hot reload reliability in Docker/Network mounts
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    # Default workdir for normal operations (once app exists)
+    working_dir: /workspace/angular-app
+    # Overridable command
+    command: npx ng serve --host 0.0.0.0 --port 4200 --poll 1000
