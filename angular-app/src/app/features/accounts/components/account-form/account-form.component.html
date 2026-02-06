@@ -1,0 +1,94 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ isEditMode() ? 'Edit Account' : 'Create Account' }}</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else {
+    <form [formGroup]="accountForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="accountName">Account Name *</label>
+          <input
+            id="accountName"
+            type="text"
+            formControlName="accountName"
+            class="form-input"
+            [class.error]="accountForm.get('accountName')?.invalid && accountForm.get('accountName')?.touched"
+          />
+          @if (accountForm.get('accountName')?.invalid && accountForm.get('accountName')?.touched) {
+            <span class="error-message">Account name is required</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="industry">Industry</label>
+          <input
+            id="industry"
+            type="text"
+            formControlName="industry"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="website">Website</label>
+          <input
+            id="website"
+            type="text"
+            formControlName="website"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            type="tel"
+            formControlName="phone"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="status">Status</label>
+          <input
+            id="status"
+            type="text"
+            formControlName="status"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field full-width">
+          <label for="billingAddress">Billing Address</label>
+          <textarea
+            id="billingAddress"
+            formControlName="billingAddress"
+            class="form-textarea"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="shippingAddress">Shipping Address</label>
+          <textarea
+            id="shippingAddress"
+            formControlName="shippingAddress"
+            class="form-textarea"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancel</button>
+        <button type="submit" [disabled]="accountForm.invalid || submitting()" class="btn btn-primary">
+          {{ submitting() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

@@ -1,0 +1,84 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Leads</h1>
+    <button (click)="createLead()" class="btn btn-primary">Create Lead</button>
+  </div>
+
+  <div class="filters">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Search leads..."
+      class="search-input"
+    />
+    <select [formControl]="statusControl" class="filter-select">
+      <option value="">All Status</option>
+      <option value="NEW">New</option>
+      <option value="CONTACTED">Contacted</option>
+      <option value="QUALIFIED">Qualified</option>
+      <option value="UNQUALIFIED">Unqualified</option>
+    </select>
+    <select [formControl]="sourceControl" class="filter-select">
+      <option value="">All Sources</option>
+      <option value="WEBSITE">Website</option>
+      <option value="REFERRAL">Referral</option>
+      <option value="CAMPAIGN">Campaign</option>
+      <option value="OTHER">Other</option>
+    </select>
+    <input
+      type="text"
+      [formControl]="ownerControl"
+      placeholder="Owner user..."
+      class="filter-input"
+    />
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (leads().length === 0) {
+    <div class="empty-state">No leads found</div>
+  } @else {
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Contact Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (lead of leads(); track lead.id) {
+            <tr (click)="viewLead(lead.id!)" class="clickable-row">
+              <td>{{ lead.company }}</td>
+              <td>{{ lead.contactName }}</td>
+              <td>{{ lead.email || '-' }}</td>
+              <td>{{ lead.phone || '-' }}</td>
+              <td>{{ lead.source || '-' }}</td>
+              <td>
+                <span class="status-badge" [class]="'status-' + (lead.status || 'new').toLowerCase()">
+                  {{ lead.status || 'NEW' }}
+                </span>
+              </td>
+              <td>{{ lead.ownerUser || '-' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      [totalElements]="totalElements()"
+      (pageChange)="onPageChange($event)"
+      (sizeChange)="onSizeChange($event)"
+    />
+  }
+</div>

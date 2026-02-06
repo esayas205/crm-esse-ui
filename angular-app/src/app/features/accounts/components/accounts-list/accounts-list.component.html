@@ -1,0 +1,61 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Accounts</h1>
+    <button (click)="createAccount()" class="btn btn-primary">Create Account</button>
+  </div>
+
+  <div class="filters">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Search accounts..."
+      class="search-input"
+    />
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (accounts().length === 0) {
+    <div class="empty-state">No accounts found</div>
+  } @else {
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th (click)="toggleSort('accountName')" class="sortable">
+              Account Name
+              @if (sortField() === 'accountName') {
+                <span>{{ sortDirection() === 'asc' ? '↑' : '↓' }}</span>
+              }
+            </th>
+            <th>Industry</th>
+            <th>Website</th>
+            <th>Phone</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (account of accounts(); track account.id) {
+            <tr (click)="viewAccount(account.id!)" class="clickable-row">
+              <td>{{ account.accountName }}</td>
+              <td>{{ account.industry || '-' }}</td>
+              <td>{{ account.website || '-' }}</td>
+              <td>{{ account.phone || '-' }}</td>
+              <td>{{ account.status || '-' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      [totalElements]="totalElements()"
+      (pageChange)="onPageChange($event)"
+      (sizeChange)="onSizeChange($event)"
+    />
+  }
+</div>

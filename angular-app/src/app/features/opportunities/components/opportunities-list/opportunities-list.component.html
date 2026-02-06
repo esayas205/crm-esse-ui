@@ -1,0 +1,66 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Opportunities</h1>
+    <button (click)="createOpportunity()" class="btn btn-primary">Create Opportunity</button>
+  </div>
+
+  <div class="filters">
+    <select [formControl]="stageControl" class="filter-select">
+      <option value="">All Stages</option>
+      <option value="QUALIFICATION">Qualification</option>
+      <option value="NEEDS_ANALYSIS">Needs Analysis</option>
+      <option value="PROPOSAL">Proposal</option>
+      <option value="NEGOTIATION">Negotiation</option>
+      <option value="CLOSED_WON">Closed Won</option>
+      <option value="CLOSED_LOST">Closed Lost</option>
+    </select>
+    <input type="text" [formControl]="accountIdControl" placeholder="Account ID..." class="filter-input" />
+    <input type="date" [formControl]="startDateControl" placeholder="Start Date" class="filter-input" />
+    <input type="date" [formControl]="endDateControl" placeholder="End Date" class="filter-input" />
+    <input type="number" [formControl]="minAmountControl" placeholder="Min Amount" class="filter-input" />
+    <input type="number" [formControl]="maxAmountControl" placeholder="Max Amount" class="filter-input" />
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (opportunities().length === 0) {
+    <div class="empty-state">No opportunities found</div>
+  } @else {
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Stage</th>
+            <th>Amount</th>
+            <th>Close Date</th>
+            <th>Probability</th>
+            <th>Account ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (opp of opportunities(); track opp.id) {
+            <tr (click)="viewOpportunity(opp.id!)" class="clickable-row">
+              <td>{{ opp.name }}</td>
+              <td><span class="stage-badge">{{ opp.stage || '-' }}</span></td>
+              <td>{{ opp.amount ? '$' + opp.amount.toLocaleString() : '-' }}</td>
+              <td>{{ opp.closeDate || '-' }}</td>
+              <td>{{ opp.probability ? opp.probability + '%' : '-' }}</td>
+              <td>{{ opp.accountId || '-' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage()"
+      [pageSize]="pageSize()"
+      [totalElements]="totalElements()"
+      (pageChange)="onPageChange($event)"
+      (sizeChange)="onSizeChange($event)"
+    />
+  }
+</div>

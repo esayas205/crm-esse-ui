@@ -1,0 +1,100 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>{{ isEditMode() ? 'Edit Lead' : 'Create Lead' }}</h1>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else {
+    <form [formGroup]="leadForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="company">Company *</label>
+          <input
+            id="company"
+            type="text"
+            formControlName="company"
+            class="form-input"
+            [class.error]="leadForm.get('company')?.invalid && leadForm.get('company')?.touched"
+          />
+          @if (leadForm.get('company')?.invalid && leadForm.get('company')?.touched) {
+            <span class="error-message">Company is required</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="contactName">Contact Name *</label>
+          <input
+            id="contactName"
+            type="text"
+            formControlName="contactName"
+            class="form-input"
+            [class.error]="leadForm.get('contactName')?.invalid && leadForm.get('contactName')?.touched"
+          />
+          @if (leadForm.get('contactName')?.invalid && leadForm.get('contactName')?.touched) {
+            <span class="error-message">Contact name is required</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            type="tel"
+            formControlName="phone"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="source">Source</label>
+          <select id="source" formControlName="source" class="form-input">
+            <option value="">Select source</option>
+            <option value="WEBSITE">Website</option>
+            <option value="REFERRAL">Referral</option>
+            <option value="CAMPAIGN">Campaign</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status" class="form-input">
+            <option value="">Select status</option>
+            <option value="NEW">New</option>
+            <option value="CONTACTED">Contacted</option>
+            <option value="QUALIFIED">Qualified</option>
+            <option value="UNQUALIFIED">Unqualified</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="ownerUser">Owner User</label>
+          <input
+            id="ownerUser"
+            type="text"
+            formControlName="ownerUser"
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancel</button>
+        <button type="submit" [disabled]="leadForm.invalid || submitting()" class="btn btn-primary">
+          {{ submitting() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

@@ -1,0 +1,109 @@
+<div class="page-container">
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (lead()) {
+    <div class="detail-header">
+      <div>
+        <h1>{{ lead()!.company }}</h1>
+        <div class="header-meta">
+          <span class="status-badge" [class]="'status-' + (lead()!.status || 'new').toLowerCase()">
+            {{ lead()!.status || 'NEW' }}
+          </span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button (click)="convertLead()" class="btn btn-success">Convert Lead</button>
+        <button (click)="editLead()" class="btn btn-secondary">Edit</button>
+        <button (click)="deleteLead()" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+
+    <div class="detail-content">
+      <div class="info-section">
+        <h2>Lead Information</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Contact Name</label>
+            <span>{{ lead()!.contactName }}</span>
+          </div>
+          <div class="info-item">
+            <label>Email</label>
+            <span>{{ lead()!.email || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Phone</label>
+            <span>{{ lead()!.phone || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Source</label>
+            <span>{{ lead()!.source || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Owner</label>
+            <span>{{ lead()!.ownerUser || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="activities-section">
+        <div class="section-header">
+          <h2>Activities</h2>
+          <div class="activity-filters">
+            <select (change)="onActivityTypeChange($event)" class="filter-select">
+              <option value="">All Types</option>
+              <option value="CALL">Call</option>
+              <option value="EMAIL">Email</option>
+              <option value="MEETING">Meeting</option>
+              <option value="TASK">Task</option>
+            </select>
+            <select (change)="onActivityCompletedChange($event)" class="filter-select">
+              <option value="">All Status</option>
+              <option value="true">Completed</option>
+              <option value="false">Pending</option>
+            </select>
+          </div>
+        </div>
+
+        @if (loadingActivities()) {
+          <div class="loading">Loading activities...</div>
+        } @else if (activities().length === 0) {
+          <div class="empty-state">No activities found</div>
+        } @else {
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Subject</th>
+                <th>Due Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (activity of activities(); track activity.id) {
+                <tr>
+                  <td>{{ activity.type }}</td>
+                  <td>{{ activity.subject }}</td>
+                  <td>{{ activity.dueDate || '-' }}</td>
+                  <td>
+                    <span [class]="activity.completed ? 'status-completed' : 'status-pending'">
+                      {{ activity.completed ? 'Completed' : 'Pending' }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <app-pagination
+            [currentPage]="activitiesPage()"
+            [pageSize]="activitiesSize()"
+            [totalElements]="activitiesTotal()"
+            (pageChange)="onActivitiesPageChange($event)"
+            (sizeChange)="onActivitiesSizeChange($event)"
+          />
+        }
+      </div>
+    </div>
+  }
+</div>

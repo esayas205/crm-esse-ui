@@ -1,0 +1,166 @@
+<div class="page-container">
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else if (account()) {
+    <div class="detail-header">
+      <div>
+        <h1>{{ account()!.accountName }}</h1>
+        <div class="header-meta">
+          <span class="status-badge">{{ account()!.status || 'Active' }}</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button (click)="editAccount()" class="btn btn-secondary">Edit</button>
+        <button (click)="deleteAccount()" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+
+    <div class="detail-content">
+      <div class="info-section">
+        <h2>Account Information</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Industry</label>
+            <span>{{ account()!.industry || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Website</label>
+            <span>{{ account()!.website || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Phone</label>
+            <span>{{ account()!.phone || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Status</label>
+            <span>{{ account()!.status || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Billing Address</label>
+            <span>{{ account()!.billingAddress || '-' }}</span>
+          </div>
+          <div class="info-item">
+            <label>Shipping Address</label>
+            <span>{{ account()!.shippingAddress || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button
+          (click)="activeTab.set('contacts')"
+          [class.active]="activeTab() === 'contacts'"
+          class="tab-btn">
+          Contacts
+        </button>
+        <button
+          (click)="activeTab.set('activities')"
+          [class.active]="activeTab() === 'activities'"
+          class="tab-btn">
+          Activities
+        </button>
+      </div>
+
+      <div class="tab-content">
+        @if (activeTab() === 'contacts') {
+          <div class="contacts-tab">
+            @if (loadingContacts()) {
+              <div class="loading">Loading contacts...</div>
+            } @else if (contacts().length === 0) {
+              <div class="empty-state">No contacts found</div>
+            } @else {
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Job Title</th>
+                    <th>Primary</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (contact of contacts(); track contact.id) {
+                    <tr>
+                      <td>{{ contact.firstName }} {{ contact.lastName }}</td>
+                      <td>{{ contact.email || '-' }}</td>
+                      <td>{{ contact.phone || '-' }}</td>
+                      <td>{{ contact.jobTitle || '-' }}</td>
+                      <td>{{ contact.isPrimaryContact ? 'Yes' : 'No' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+              <app-pagination
+                [currentPage]="contactsPage()"
+                [pageSize]="contactsSize()"
+                [totalElements]="contactsTotal()"
+                (pageChange)="onContactsPageChange($event)"
+                (sizeChange)="onContactsSizeChange($event)"
+              />
+            }
+          </div>
+        }
+
+        @if (activeTab() === 'activities') {
+          <div class="activities-tab">
+            <div class="activity-filters">
+              <select (change)="onActivityTypeChange($event)" class="filter-select">
+                <option value="">All Types</option>
+                <option value="CALL">Call</option>
+                <option value="EMAIL">Email</option>
+                <option value="MEETING">Meeting</option>
+                <option value="TASK">Task</option>
+              </select>
+              <select (change)="onActivityCompletedChange($event)" class="filter-select">
+                <option value="">All Status</option>
+                <option value="true">Completed</option>
+                <option value="false">Pending</option>
+              </select>
+            </div>
+
+            @if (loadingActivities()) {
+              <div class="loading">Loading activities...</div>
+            } @else if (activities().length === 0) {
+              <div class="empty-state">No activities found</div>
+            } @else {
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (activity of activities(); track activity.id) {
+                    <tr>
+                      <td>{{ activity.type }}</td>
+                      <td>{{ activity.subject }}</td>
+                      <td>{{ activity.dueDate || '-' }}</td>
+                      <td>
+                        <span [class]="activity.completed ? 'status-completed' : 'status-pending'">
+                          {{ activity.completed ? 'Completed' : 'Pending' }}
+                        </span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+              <app-pagination
+                [currentPage]="activitiesPage()"
+                [pageSize]="activitiesSize()"
+                [totalElements]="activitiesTotal()"
+                (pageChange)="onActivitiesPageChange($event)"
+                (sizeChange)="onActivitiesSizeChange($event)"
+              />
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
