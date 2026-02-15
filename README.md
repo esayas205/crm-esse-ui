@@ -59,6 +59,8 @@ docker-compose up
 ```
 The application will be available at `http://localhost:4200`.
 
+For a complete list of Docker commands (build, test, install, etc.), see the [Docker Compose Usage Guide](.junie/docker_guide.md).
+
 ### Running Manually
 1. Navigate to the app directory:
    ```bash

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="220" viewBox="0 0 860 220" role="img" aria-label="ESSE CRM logo">
+  <defs>
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E6BFF"/>
+      <stop offset="1" stop-color="#0B2D6B"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0B2D6B" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background (transparent). If you want a blue badge background, set rect fill to url(#blueGrad). -->
+  <!-- <rect x="0" y="0" width="860" height="220" rx="24" fill="url(#blueGrad)"/> -->
+
+  <!-- Icon -->
+  <g transform="translate(40,35)" filter="url(#softShadow)">
+    <!-- Rounded square -->
+    <rect x="0" y="0" width="150" height="150" rx="28" fill="url(#blueGrad)"/>
+    <!-- Stylized "E" made from white bars -->
+    <rect x="42" y="42" width="76" height="14" rx="7" fill="#FFFFFF"/>
+    <rect x="42" y="68" width="60" height="14" rx="7" fill="#FFFFFF"/>
+    <rect x="42" y="94" width="76" height="14" rx="7" fill="#FFFFFF"/>
+    <!-- Small CRM dot -->
+    <circle cx="118" cy="116" r="8" fill="#FFFFFF" opacity="0.95"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(230,0)">
+    <text x="0" y="118"
+          font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+          font-size="74"
+          font-weight="800"
+          letter-spacing="1.5"
+          fill="#0B2D6B">
+      ESSE
+    </text>
+    <text x="0" y="170"
+          font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+          font-size="42"
+          font-weight="700"
+          letter-spacing="6"
+          fill="#1E6BFF">
+      CRM
+    </text>
+
+    <!-- Accent underline -->
+    <rect x="0" y="182" width="280" height="8" rx="4" fill="#1E6BFF" opacity="0.9"/>
+  </g>
+</svg>

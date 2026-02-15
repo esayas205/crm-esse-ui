@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="154" height="34" viewBox="0 0 154 34" role="img" aria-label="ESSE CRM logo">
+  <defs>
+    <linearGradient id="blueGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E6BFF"/>
+      <stop offset="1" stop-color="#0B2D6B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon -->
+  <g transform="translate(4,4)">
+    <rect x="0" y="0" width="26" height="26" rx="7" fill="url(#blueGrad)"/>
+
+    <!-- Clean "E" mark -->
+    <rect x="7" y="7" width="12" height="2.6" rx="1.3" fill="#FFFFFF"/>
+    <rect x="7" y="12" width="9" height="2.6" rx="1.3" fill="#FFFFFF"/>
+    <rect x="7" y="17" width="12" height="2.6" rx="1.3" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="38" y="22"
+        font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+        font-size="15"
+        font-weight="800"
+        letter-spacing="0.4"
+        fill="#0B2D6B">
+    ESSE
+  </text>
+
+  <text x="92" y="22"
+        font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+        font-size="11"
+        font-weight="700"
+        letter-spacing="1.6"
+        fill="#1E6BFF">
+    CRM
+  </text>
+
+  <!-- subtle divider line -->
+  <rect x="86" y="10" width="1.5" height="14" rx="0.75" fill="#0B2D6B" opacity="0.25"/>
+</svg>
